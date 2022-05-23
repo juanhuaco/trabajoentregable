@@ -2,6 +2,7 @@ package ejercicio_integrador;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class App {
 
@@ -34,6 +35,9 @@ public class App {
 		bienesProveedor.add(b3);
 		
 		Proveedor proveedor1 = new Proveedor("tomas", sunchales, bienesProveedor);
+		Proveedor proveedor2 = new Proveedor("juan", sunchales, bienesProveedor);
+		Proveedor proveedor3 = new Proveedor("luna", sunchales, bienesProveedor);
+		
 		
 		try {
 			//==========Responsable y Proveedor igual Localidad=============
@@ -80,12 +84,56 @@ public class App {
 			for(int i=0; i<10; i++) bienesProveedor.add(b1);
 			
 			Factura f7 = new Factura(bienesProveedor, responsable1, proveedor1, new Date());
+			
+			//=============> listarFacturaByProveedor(Proveedor p)=======
+			
+			ArrayList<Responsable> responsablesEmpresa = new ArrayList<Responsable>();
+			responsablesEmpresa.add(responsable1);
+			
+			ArrayList<Proveedor> proveedoresEmpresa = new ArrayList<Proveedor>();
+			proveedoresEmpresa.add(proveedor1);
+			proveedoresEmpresa.add(proveedor2);
+			proveedoresEmpresa.add(proveedor3);
+			
+			ArrayList<Bien> bienesEmpresa = new ArrayList<Bien>();
+			bienesEmpresa.add(b1);
+			bienesEmpresa.add(b2);
+			bienesEmpresa.add(b3);
+			
+			ArrayList<Factura> facturasEmpresa = new ArrayList<Factura>();
+			facturasEmpresa.add(f1);
+			facturasEmpresa.add(f2);
+			facturasEmpresa.add(f3);
+			facturasEmpresa.add(f5);
+			facturasEmpresa.add(f6);
+			
+			Empresa empresa = new Empresa(responsablesEmpresa, proveedoresEmpresa, bienesEmpresa, facturasEmpresa);
+			
+			System.out.println("Faturas por Proveedor");
+			System.out.println(empresa.listarFacturaByProveedor(proveedor1).stream().map(f -> f.getId()).collect(Collectors.toList()));
+			
+			System.out.println("Faturas por Responsable");
+			System.out.println(empresa.listarFacturaByResponsable(responsable1).stream().map(f -> f.getId()).collect(Collectors.toList()));
+			
+			System.out.println("Proveedores por orden Lexicografico");
+			System.out.println(empresa.listarNombresProveedores(sunchales));
+			
+			System.out.println("Bienes cuyo proveedor reside en Loalidad");
+			System.out.println(empresa.listarBienesByLocalidad(sunchales));
+			
+			System.out.println("Bienes cuyo preio es mayor a pm");
+			System.out.println(empresa.listarBienesByPrecioMayor(1d));
+
+			System.out.println("Facturas cuyo monto es mayor a mm");
+			System.out.println(empresa.listarFacturasByMontoMayor(10d));
 
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 		
 		
 	}
