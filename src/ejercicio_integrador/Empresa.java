@@ -1,7 +1,15 @@
 package ejercicio_integrador;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.stream.Collectors;
+import java.util.*;
+import java.lang.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.io.*;
 
 public class Empresa {
 	ArrayList<Responsable> responsables;
@@ -73,4 +81,20 @@ public class Empresa {
 				   .collect(Collectors.toList());
 		return retorno;
 	}
+	
+	ArrayList<String> listarFactuadasPorProveedor(Proveedor p){
+		String format = "dd/MM/yyyy";
+		DateFormat df = new SimpleDateFormat(format);
+		
+		ArrayList<Factura> facturass = this.listarFacturaByProveedor(p);
+		Collections.sort(facturass, new CompararFacturaPorFecha());
+		ArrayList<String> retorno = (ArrayList<String>)facturass.stream()
+				.map(f -> "En la fecha " + df.format(f.getFecha()) + ", " + f.getProveedor().getNombre() + " facturó con un total de $" + f.getMontoTotal() + " con " + f.getBienes().size() + " bienes")
+				.collect(Collectors.toList());
+		
+		return retorno;
+	}
+	
+	
+	
 }
